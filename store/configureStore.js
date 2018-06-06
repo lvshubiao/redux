@@ -6,11 +6,7 @@ import createLogger from 'redux-logger';
 import array from './array';
 import analytics from './analytics';
 import reducers from '../reducers';
-
-var isDebuggingInChrome = __DEV__ && !!window.navigator.userAgent;
-
 var logger = createLogger({
-  predicate: (getState, action) => isDebuggingInChrome,
   collapsed: true,
   duration: false,
 });
