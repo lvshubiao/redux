@@ -3,8 +3,6 @@ import React from 'react';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import createLogger from 'redux-logger';
-import array from './array';
-import analytics from './analytics';
 import reducers from '../reducers';
 var logger = createLogger({
   collapsed: true,
@@ -12,6 +10,6 @@ var logger = createLogger({
 });
 
 //var configureStore = createStore(reducers);
-var configureStore = applyMiddleware(thunk, array, analytics, logger)(createStore)(reducers);
+var configureStore = applyMiddleware(thunk,logger)(createStore)(reducers);
 
 export default configureStore;
