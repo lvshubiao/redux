@@ -98,8 +98,14 @@ let util = {
      * @description 加密字符串
      * @param regIndex 加密位置  （开始加密的索引，结束加密的索引）
      * @param ARepText 加密的字符 （默认*）
-     * eg var phone = '14568586655545';
-        console.log(util.encryptStr(phone,'3,6'))
+     * console.log(`加密字符 ${util.encryptStr('18819233362','3,7','+')}`)
+        //result:188+++++362
+        console.log(`不加密字符 ${util.encryptUnStr('18819233362','3,7','+')}`)
+        //result:+++19233+++
+        console.log(`字符串开始位置加密 ${util.encryptStartStr('18819233362','4')}`)
+        //result:****9233362
+        console.log(`字符串结束位置加密 ${util.encryptEndStr('18819233362','4')}`)
+        //result:1881923****
      */
     encryptStr(str, regIndex, ARepText = '*') {
         let regtext = '',
