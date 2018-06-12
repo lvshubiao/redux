@@ -1,4 +1,4 @@
-/*3.0.0*/
+/*常用方法封装*/
 let util = {
     //***************字符串模块**************************/
     /**
@@ -24,6 +24,12 @@ let util = {
      */
     trimRight(str) {
         return str.replace(/(\s*$)/g, "");
+    },
+    /**
+     * 格式化金钱 输出 类似38,020,958
+     */
+    formatMoney(str){
+        return str.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
     /*
     字符串截取
@@ -386,13 +392,27 @@ let util = {
     //***************字符串模块End**************************/
     //***************数组模块**************************/
     /**
-     * @description 数组去重
-     * @param arr
+     * @description 普通数组去重
+     * @param arr  
      * @return {[*]}
      */
     unique(arr) {
         //es6
         return [...new Set(arr)]
+    },
+    /**
+     * 对象数组去重
+     * @param [{a:1},{a:1}]
+     * @return[{a:1}]
+     */
+    objunique(arr){
+        let tempArr = [];
+        for(let i = 0;i<arr.length;i++){
+            if(JSON.stringify(tempArr).indexOf(JSON.stringify(arr[i])) == -1){
+                tempArr.push(arr[i])
+            }
+        }
+        return tempArr;
     },
     /**
      * @description 数组顺序打乱
