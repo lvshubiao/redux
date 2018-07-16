@@ -28,7 +28,7 @@ let util = {
     /**
      * 格式化金钱 输出 类似38,020,958
      */
-    formatMoney(str){
+    formatMoney(str) {
         return str.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
     },
     /*
@@ -405,10 +405,10 @@ let util = {
      * @param [{a:1},{a:1}]
      * @return[{a:1}]
      */
-    objunique(arr){
+    objunique(arr) {
         let tempArr = [];
-        for(let i = 0;i<arr.length;i++){
-            if(JSON.stringify(tempArr).indexOf(JSON.stringify(arr[i])) == -1){
+        for (let i = 0; i < arr.length; i++) {
+            if (JSON.stringify(tempArr).indexOf(JSON.stringify(arr[i])) == -1) {
                 tempArr.push(arr[i])
             }
         }
@@ -728,6 +728,53 @@ let util = {
             }
         }
         return _fmt;
+    },
+    /**
+     * 发布1小时以内的评论：x分钟前
+
+        发布1小时~24小时的评论：x小时前
+
+        发布24小时~30天的评论：x天前
+
+        发布30天以上的评论：月/日
+
+        去年发布并且超过30天的评论：年/月/日
+     */
+    transDate(timeStr) {
+        //获取当前时间戳
+        let _now = +new Date();
+        //求与当前的时间差
+        let se = _now - timeStr;
+        const DATE_LEVEL = {
+            month: 2592000000,
+            day: 86400000,
+            hour: 3600000,
+            minter: 60000,
+        }
+        let _text = '';
+        //去年
+        if (new Date(timeStr).getFullYear() !== new Date().getFullYear() && se > DATE_LEVEL.month) {
+            _text = new Date(timeStr).getFullYear() + '年' + (new Date(timeStr).getMonth() + 1) + '月' + new Date(timeStr).getDate() + '日';
+        }
+        //一个月以上
+        else if (se > DATE_LEVEL.month) {
+            _text = (new Date(timeStr).getMonth() + 1) + '月' + new Date(timeStr).getDate() + '日';
+        }
+        //一天以上
+        else if (se > DATE_LEVEL.day) {
+            _text = Math.floor(se / DATE_LEVEL.day) + '天前';
+        }
+        //一个小时以上
+        else if (se > DATE_LEVEL.hour) {
+            _text = Math.floor(se / DATE_LEVEL.hour) + '小时前';
+        }
+        //一个小时以内
+        else {
+            //如果小于1分钟，就显示1分钟前
+            if (se < DATE_LEVEL.minter) { se = DATE_LEVEL.minter }
+            _text = Math.floor(se / DATE_LEVEL.minter) + '分钟前';
+        }
+        return _text;
     },
     /**
      * @description 随机产生颜色
